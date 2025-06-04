@@ -2,22 +2,26 @@ import { useEffect, useState } from "react";
 import { getBooks } from "../../../_services/books";
 import { getGenres } from "../../../_services/genres";
 import { Link } from "react-router-dom";
+import { getAuthors } from "../../../_services/authors";
 
 export default function AdminBooks() {
   const [books, setBooks] = useState([]);
   const [genres, setGenres] = useState([]);
+  const [authors, setAuthors] = useState([]);
 
   const [openDropDown, setOpenDropdown] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const [booksData, genresData] = await Promise.all([
+      const [booksData, genresData, authorsData] = await Promise.all([
         getBooks(),
         getGenres(),
+        getAuthors(),
       ])
 
       setBooks(booksData);
       setGenres(genresData);
+      setAuthors(authorsData);
     }
     fetchData();
     }, [])
@@ -27,10 +31,15 @@ export default function AdminBooks() {
       return genre ? genre.name : "Unknown Genre";
     }
 
+    const getAuthorName = (id) => {
+      const author = authors.find((author) => author.id === id);
+      return author ? author.name : "Unknown Author";
+    }
+
     const toogleDropdown = (id) => {
       setOpenDropdown(openDropDown === id ? null : id);
     }
-
+  
   return (
     <>
       <section className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
@@ -130,7 +139,7 @@ export default function AdminBooks() {
                     <td className="px-4 py-3">{ book.stock }</td>
                     <td className="px-4 py-3">{ book.cover_photo }</td>
                     <td className="px-4 py-3">{ getGenreName(book.genre_id) }</td>
-                    <td className="px-4 py-3">{ book.author_id }</td>
+                    <td className="px-4 py-3">{ getAuthorName(book.author_id) }</td>
                     <td className="px-4 py-3 flex items-center justify-end relative">
                       <button
                         id={`dropdown-button-${book.id}`}
