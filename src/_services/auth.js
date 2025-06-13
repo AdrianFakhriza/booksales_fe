@@ -26,7 +26,15 @@ export const logout = async ({ token }) => {
   }
 } 
 
-
+export const register = async ({ email, name, password }) => {
+  try {
+    const { data } = await API.post('/register', { email, name, password });
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error
+  }
+}
 
 
 export const useDecodeToken = (Token) => {
