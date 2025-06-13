@@ -1,4 +1,4 @@
-import API from "../_api";
+import { API } from "../_api";
 
 export const getBooks = async () => {
   const { data } = await API.get("/books");
@@ -38,7 +38,7 @@ export const updateBook = async (id, data) => {
 export const deleteBook = async (id) => {
   try {
     await API.delete(`/books/${id}`);
-} catch (error) {
+  } catch (error) {
     console.log(error);
     throw error;
   }

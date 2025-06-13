@@ -15,6 +15,7 @@ import AuthorCreate from "./pages/admin/authors/create"
 import BookEdit from "./pages/admin/books/edit"
 import AuthorEdit from "./pages/admin/authors/edit"
 import GenreEdit from "./pages/admin/genres/edit"
+import ShowBook from "./pages/public/books/show"
 
 function App() {
 
@@ -25,7 +26,10 @@ function App() {
           {/* public */}
             <Route element={<PublicLayout />}>
               <Route index element={<Home />} />
-              <Route path="books" element={<Books />} />
+              <Route path="books">
+                <Route index element={<Books />} />
+                <Route path="show/:id" element={<ShowBook />} />
+              </Route>
             </Route>
 
           {/* auth */}
